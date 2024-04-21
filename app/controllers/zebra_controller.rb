@@ -14,4 +14,20 @@ class ZebraController < ApplicationController
 
     render(:template => "game_templates/square_results")
   end
+
+  def square_root_new
+    render(:template => "game_templates/square_root")
+  end
+
+  def square_root_results
+    @input = params.fetch("number").to_f
+
+    @root = @input ** 0.5
+
+    render(:template => "game_templates/square_root_results")
+  end
+
+  def payment_new
+    render(:template => "game_templates/payment")
+  end
 end
