@@ -30,4 +30,33 @@ class ZebraController < ApplicationController
   def payment_new
     render(:template => "game_templates/payment")
   end
+
+  def payment_results
+    @apr = params.fetch("user_apr").to_f
+    @years = params.fetch("user_years").to_f
+    @principal = params.fetch("user_pv").to_f
+
+    period_rate = @apr / 1200
+    periods = @years * 12
+
+    numerator = period_rate * @principal
+    denominator = 1 - (1 + period_rate) ** (-1 * periods)
+
+    @monthly_payment = (numerator / denominator).to_fs(:currency)
+
+    render(:template => "game_templates/payment_results")
+  end
+
+  def random_new
+    render(:template => "game_templates/random")
+  end
+
+  def random_results
+  @minimum = params.fetch("user_min").to_f
+  @maximum = params.fetch("user_max").to_f
+
+  @random_number = rand(@minimum..@maximum).to_f
+
+  render(:template => "game_templates/random_results")
+  end
 end
